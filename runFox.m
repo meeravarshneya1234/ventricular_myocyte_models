@@ -175,4 +175,4 @@ figure
 plot(t,V,'linewidth',2)
 set(gca,'FontSize',12,'FontWeight','bold')
 xlabel('time (ms)')
-ylabel('IKr (A/F)')
+ylabel('Voltage (mV)')
