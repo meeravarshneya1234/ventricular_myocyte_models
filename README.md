@@ -1,6 +1,6 @@
 # ventricular_myocyte_models
 
-This folder contains the basic code for different ventricular myocyte models. 
+This folder contains the basic code for different ventricular myocyte models. All equations, initial conditions, and parameter selections are taken from the original papers. 
 
 Please note the following:
 1) If you are downloading only a single model, please also download the find_APD.m function. 
