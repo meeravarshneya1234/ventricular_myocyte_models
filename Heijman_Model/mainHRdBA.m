@@ -105,7 +105,8 @@ function [currents,State,Ti,APDs,settings]=mainHRdBA(settings)
                 Stm=[Stm  St];
             end
 
-            curAPD = determineAPD(t, X(:,1), settings.APDRepLevel);
+            %curAPD = determineAPD(t, X(:,1), settings.APDRepLevel);
+            curAPD = determineAPD(t, X(:,1));
             APDs = [APDs; curAPD];
 
             if settings.showProgress == 1
@@ -152,21 +153,42 @@ end
 
 % Sub-function to determine APD (between max dvdt and a given percentage of
 % maximum and minimum membrane potential
-function APD = determineAPD(t, Vm, replevel)
-    dvdt = (Vm(2:end) - Vm(1:end-1)) ./ (t(2:end) - t(1:end-1));
-    [v, maxdvin] = max(dvdt);
-        
-	baselinelvl = min(Vm);
-	[peak, peakin] = max(Vm);
-    
-	Voi = baselinelvl + (1 - replevel) * (peak - baselinelvl);
-    tin = find(Vm(peakin:end) < Voi);
-    if ~isempty(tin)
-        tin = tin(1);
-        APD = t(tin+peakin-1)-t(maxdvin);
-    else
-        APD = NaN;
-    end
+% function APD = determineAPD(t, Vm, replevel)
+%     dvdt = (Vm(2:end) - Vm(1:end-1)) ./ (t(2:end) - t(1:end-1));
+%     [v, maxdvin] = max(dvdt);
+%         
+% 	baselinelvl = min(Vm);
+% 	[peak, peakin] = max(Vm);
+%     
+% 	Voi = baselinelvl + (1 - replevel) * (peak - baselinelvl);
+%     tin = find(Vm(peakin:end) < Voi);
+%     if ~isempty(tin)
+%         tin = tin(1);
+%         APD = t(tin+peakin-1)-t(maxdvin);
+%     else
+%         APD = NaN;
+%     end
+% end
+function APD = determineAPD(time, Voltage)
+dVdt = diff(Voltage)./diff(time) ;
+[~,dexmax] = max(dVdt) ;
+
+%t of maximum dV/dt, consider this beginning of action potential
+tinit = time(dexmax) ;
+
+% Then determine peak V of action potential, for two reasons,
+% 1) Because repolarization must, by definition, occur after this
+% 2) To compute 50%, 90%, etc., must have this value
+[~,peakdex] = max(Voltage) ;
+tpeak = time(peakdex) ;
+repoldex = find(time > tpeak & Voltage < -75,1) ; % APD based on repolarization back to -75 mV instead of -60 mV
+if isempty(repoldex)
+    APD = NaN;
+else
+    repoltime = time(repoldex(1)) ;
+    APD = round((repoltime - tinit),1) ;
+end
+
 end
 
 function Xinit = getInitialVector(settings)
