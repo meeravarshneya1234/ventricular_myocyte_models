@@ -102,8 +102,8 @@ s3_junc = p.KmCai*p.Nao^3*(1+(y(32)/p.KmNai)^3) + p.KmNao^3*y(36)*(1+y(36)/p.KmC
 s2_sl = exp((p.nu-1)*V*p.FoRT)*p.Nao^3*y(37);
 s3_sl = p.KmCai*p.Nao^3*(1+(y(33)/p.KmNai)^3) + p.KmNao^3*y(37)*(1+y(37)/p.KmCai)+p.KmCao*y(33)^3+y(33)^3*p.Cao+p.Nao^3*y(37);
 
-I_ncx_junc = p.Fjunc*c.IbarNCX*p.Q10NCX^p.Qpow*Ka_junc*(s1_junc-s2_junc)/s3_junc/(1+c.ksat*exp((p.nu-1)*V*p.FoRT));
-I_ncx_sl = p.Fsl*c.IbarNCX*p.Q10NCX^p.Qpow*Ka_sl*(s1_sl-s2_sl)/s3_sl/(1+c.ksat*exp((p.nu-1)*V*p.FoRT));
+I_ncx_junc = p.Fjunc*c.IbarNCX*p.Q10NCX^p.Qpow*Ka_junc*(s1_junc-s2_junc)/s3_junc/(1+p.ksat*exp((p.nu-1)*V*p.FoRT));
+I_ncx_sl = p.Fsl*c.IbarNCX*p.Q10NCX^p.Qpow*Ka_sl*(s1_sl-s2_sl)/s3_sl/(1+p.ksat*exp((p.nu-1)*V*p.FoRT));
 I_ncx = I_ncx_junc+I_ncx_sl;
 
 % I_pca: Sarcolemmal Ca Pump Current
