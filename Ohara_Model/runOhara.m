@@ -28,92 +28,6 @@ p.vmyo=0.68*p.vcell;
 p.vnsr=0.0552*p.vcell;
 p.vjsr=0.0048*p.vcell;
 p.vss=0.02*p.vcell;
-%
-%CaMK constants
-p.aCaMK=0.05;
-p.bCaMK=0.00068;
-p.CaMKo=0.05;
-
-%reverse potential constant
-p.PKNa=0.01833;
-
-%INa constants
-p.Ahf=0.99;
-p.Ahs=1.0-p.Ahf;
-
-%INaL constants
-p.thL=200.0;
-
-%Ito constants
-p.delta_epi=1.0;
-if strcmp(p.celltype,'epi')==1
-    p.delta_epi=1.0-(0.95/(1.0+exp((V+70.0)/5.0)));
-end
-
-%ICaL, ICaNa, ICaK constants
-p.Aff=0.6;
-p.tjca=75.0;
-p.Kmn=0.002;
-p.k2n=1000.0;
-p.zca=2.0;
-
-%INaCa_i constants
-p.kna1=15.0;
-p.kna2=5.0;
-p.kna3=88.12;
-p.kasymm=12.5;
-p.wna=6.0e4;
-p.wca=6.0e4;
-p.wnaca=5.0e3;
-p.kcaon=1.5e6;
-p.kcaoff=5.0e3;
-p.qna=0.5224;
-p.qca=0.1670;
-p.zna=1.0;
-
-%INaCa_ss constants
-p.KmCaAct=150.0e-6;
-
-%INaK constants
-p.k1p=949.5;
-p.k1m=182.4;
-p.k2p=687.2;
-p.k2m=39.4;
-p.k3p=1899.0;
-p.k3m=79300.0;
-p.k4p=639.0;
-p.k4m=40.0;
-p.Knai0=9.073;
-p.Knao0=27.78;
-p.delta=-0.1550;
-
-p.Kki=0.5;
-p.Kko=0.3582;
-p.MgADP=0.05;
-p.MgATP=9.8;
-p.Kmgatp=1.698e-7;
-p.H=1.0e-7;
-p.eP=4.2;
-p.Khp=1.698e-7;
-p.Knap=224.0;
-p.Kxkur=292.0;
-
-p.zk=1.0;
-
-%calcium buffer constants
-p.cmdnmax=0.05;
-if strcmp(p.celltype,'epi')==1
-    p.cmdnmax=p.cmdnmax*1.3;
-end
-p.kmcmdn=0.00238;
-p.trpnmax=0.07;
-p.kmtrpn=0.0005;
-p.BSRmax=0.047;
-p.KmBSR=0.00087;
-p.BSLmax=1.124;
-p.KmBSL=0.0087;
-p.csqnmax=10.0;
-p.kmcsqn=0.8;
 
 %jsr constants
 p.bt=4.75;
@@ -154,9 +68,6 @@ elseif  strcmp(p.celltype,'mid')==1
 end
 c.PNab=3.75e-10;
 c.PCab=2.5e-8;
-
-p.KmCaMK=0.15;
-p.KmCaM=0.0015;
 
 c.SERCA_total = 1 ;
 c.RyR_total = 1 ;

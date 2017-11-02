@@ -15,11 +15,11 @@ celltype=0; %endo = 0, epi = 1, M = 2
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 %CaMK constants
-% p.KmCaMK=0.15;
-% p.aCaMK=0.05;
-% p.bCaMK=0.00068;
-% p.CaMKo=0.05;
-% p.KmCaM=0.0015;
+p.KmCaMK=0.15;
+p.aCaMK=0.05;
+p.bCaMK=0.00068;
+p.CaMKo=0.05;
+p.KmCaM=0.0015;
 %update CaMK
 CaMKb=p.CaMKo*(1.0-CaMKt)/(1.0+p.KmCaM/Cass);
 CaMKa=CaMKb+CaMKt;
@@ -31,7 +31,7 @@ dCaMKt=p.aCaMK*CaMKb*(CaMKb+CaMKt)-p.bCaMK*CaMKt;
 %reversal potentials
 ENa=(p.R*p.T/p.F)*log(p.Nao/Nai);
 EK=(p.R*p.T/p.F)*log(p.Ko/Ki);
-% p.PKNa=0.01833;
+p.PKNa=0.01833;
 EKs=(p.R*p.T/p.F)*log((p.Ko+p.PKNa*p.Nao)/(Ki+p.PKNa*Nai));
 
 %convenient shorthand calculations
@@ -47,8 +47,8 @@ dm=(mss-m)/tm;
 hss=1.0/(1+exp((V+82.90)/6.086));
 thf=1.0/(1.432e-5*exp(-(V+1.196)/6.285)+6.149*exp((V+0.5096)/20.27));
 ths=1.0/(0.009794*exp(-(V+17.95)/28.05)+0.3343*exp((V+5.730)/56.66));
-% p.Ahf=0.99;
-% p.Ahs=1.0-p.Ahf;
+p.Ahf=0.99;
+p.Ahs=1.0-p.Ahf;
 dhf=(hss-hf)/thf;
 dhs=(hss-hs)/ths;
 h=p.Ahf*hf+p.Ahs*hs;
@@ -69,7 +69,7 @@ mLss=1.0/(1.0+exp((-(V+42.85))/5.264));
 tmL=tm;
 dmL=(mLss-mL)/tmL;
 hLss=1.0/(1.0+exp((V+87.61)/7.488));
-% p.thL=200.0;
+p.thL=200.0;
 dhL=(hLss-hL)/p.thL;
 hLssp=1.0/(1.0+exp((V+93.81)/7.488));
 thLp=3.0*p.thL;
@@ -82,10 +82,9 @@ ass=1.0/(1.0+exp((-(V-14.34))/14.82));
 ta=1.0515/(1.0/(1.2089*(1.0+exp(-(V-18.4099)/29.3814)))+3.5/(1.0+exp((V+100.0)/29.3814)));
 da=(ass-a)/ta;
 iss=1.0/(1.0+exp((V+43.94)/5.711));
-if celltype==1
+p.delta_epi=1.0;
+if strcmp(celltype,'epi')==1
     p.delta_epi=1.0-(0.95/(1.0+exp((V+70.0)/5.0)));
-else
-    p.delta_epi=1.0;
 end
 tiF=4.562+1/(0.3933*exp((-(V+100.0))/100.0)+0.08004*exp((V+50.0)/16.59));
 tiS=23.62+1/(0.001416*exp((-(V+96.52))/59.05)+1.780e-8*exp((V+114.1)/8.079));
@@ -115,7 +114,7 @@ dd=(dss-d)/td;
 fss=1.0/(1.0+exp((V+19.58)/3.696));
 tff=7.0+1.0/(0.0045*exp(-(V+20.0)/10.0)+0.0045*exp((V+20.0)/10.0));
 tfs=1000.0+1.0/(0.000035*exp(-(V+5.0)/4.0)+0.000035*exp((V+5.0)/6.0));
-% p.Aff=0.6;
+p.Aff=0.6;
 Afs=1.0-p.Aff;
 dff=(fss-ff)/tff;
 dfs=(fss-fs)/tfs;
@@ -128,7 +127,7 @@ Afcas=1.0-Afcaf;
 dfcaf=(fcass-fcaf)/tfcaf;
 dfcas=(fcass-fcas)/tfcas;
 fca=Afcaf*fcaf+Afcas*fcas;
-% p.tjca=75.0;
+p.tjca=75.0;
 djca=(fcass-jca)/p.tjca;
 tffp=2.5*tff;
 dffp=(fss-ffp)/tffp;
@@ -136,15 +135,15 @@ fp=p.Aff*ffp+Afs*fs;
 tfcafp=2.5*tfcaf;
 dfcafp=(fcass-fcafp)/tfcafp;
 fcap=Afcaf*fcafp+Afcas*fcas;
-% p.Kmn=0.002;
-% p.k2n=1000.0;
+p.Kmn=0.002;
+p.k2n=1000.0;
 km2n=jca*1.0;
 anca=1.0/(p.k2n/km2n+(1.0+p.Kmn/Cass)^4.0);
 dnca=anca*p.k2n-nca*km2n;
 PhiCaL=4.0*vffrt*(Cass*exp(2.0*vfrt)-0.341*p.Cao)/(exp(2.0*vfrt)-1.0);
 PhiCaNa=1.0*vffrt*(0.75*Nass*exp(1.0*vfrt)-0.75*p.Nao)/(exp(1.0*vfrt)-1.0);
 PhiCaK=1.0*vffrt*(0.75*Kss*exp(1.0*vfrt)-0.75*p.Ko)/(exp(1.0*vfrt)-1.0);
-% p.zca=2.0;
+p.zca=2.0;
 PCap=1.1*c.PCa_;
 PCaNa=0.00125*c.PCa_;
 PCaK=3.574e-4*c.PCa_;
@@ -184,17 +183,17 @@ rk1=1.0/(1.0+exp((V+105.8-2.6*p.Ko)/9.493));
 IK1=c.GK1*sqrt(p.Ko)*rk1*xk1*(V-EK);
 
 %calculate INaCa_i
-% p.kna1=15.0;
-% p.kna2=5.0;
-% p.kna3=88.12;
-% p.kasymm=12.5;
-% p.wna=6.0e4;
-% p.wca=6.0e4;
-% p.wnaca=5.0e3;
-% p.kcaon=1.5e6;
-% p.kcaoff=5.0e3;
-% p.qna=0.5224;
-% p.qca=0.1670;
+p.kna1=15.0;
+p.kna2=5.0;
+p.kna3=88.12;
+p.kasymm=12.5;
+p.wna=6.0e4;
+p.wca=6.0e4;
+p.wnaca=5.0e3;
+p.kcaon=1.5e6;
+p.kcaoff=5.0e3;
+p.qna=0.5224;
+p.qca=0.1670;
 hca=exp((p.qca*V*p.F)/(p.R*p.T));
 hna=exp((p.qna*V*p.F)/(p.R*p.T));
 h1=1+Nai/p.kna3*(1+hna);
@@ -229,9 +228,9 @@ E1=x1/(x1+x2+x3+x4);
 E2=x2/(x1+x2+x3+x4);
 E3=x3/(x1+x2+x3+x4);
 E4=x4/(x1+x2+x3+x4);
-%p.KmCaAct=150.0e-6;
+p.KmCaAct=150.0e-6;
 allo=1.0/(1.0+(p.KmCaAct/Cai)^2.0);
-%p.zna=1.0;
+p.zna=1.0;
 JncxNa=3.0*(E4*k7-E1*k8)+E3*k4pp-E2*k3pp;
 JncxCa=E2*k2-E1*k1;
 INaCa_i=0.8*c.Gncx*allo*(p.zna*JncxNa+p.zca*JncxCa);
@@ -276,29 +275,29 @@ JncxCa=E2*k2-E1*k1;
 INaCa_ss=0.2*c.Gncx*allo*(p.zna*JncxNa+p.zca*JncxCa);
 
 %calculate INaK
-% k1p=949.5;
-% k1m=182.4;
-% k2p=687.2;
-% k2m=39.4;
-% k3p=1899.0;
-% k3m=79300.0;
-% k4p=639.0;
-% k4m=40.0;
-% Knai0=9.073;
-% Knao0=27.78;
-% delta=-0.1550;
+p.k1p=949.5;
+p.k1m=182.4;
+p.k2p=687.2;
+p.k2m=39.4;
+p.k3p=1899.0;
+p.k3m=79300.0;
+p.k4p=639.0;
+p.k4m=40.0;
+p.Knai0=9.073;
+p.Knao0=27.78;
+p.delta=-0.1550;
 Knai=p.Knai0*exp((p.delta*V*p.F)/(3.0*p.R*p.T));
 Knao=p.Knao0*exp(((1.0-p.delta)*V*p.F)/(3.0*p.R*p.T));
-% Kki=0.5;
-% Kko=0.3582;
-% MgADP=0.05;
-% MgATP=9.8;
-% Kmgatp=1.698e-7;
-% H=1.0e-7;
-% eP=4.2;
-% Khp=1.698e-7;
-% Knap=224.0;
-% Kxkur=292.0;
+p.Kki=0.5;
+p.Kko=0.3582;
+p.MgADP=0.05;
+p.MgATP=9.8;
+p.Kmgatp=1.698e-7;
+p.H=1.0e-7;
+p.eP=4.2;
+p.Khp=1.698e-7;
+p.Knap=224.0;
+p.Kxkur=292.0;
 
 P=p.eP/(1.0+p.H/p.Khp+Nai/p.Knap+Ki/p.Kxkur);
 a1=(p.k1p*(Nai/Knai)^3.0)/((1.0+Nai/Knai)^3.0+(1.0+Ki/p.Kki)^2.0-1.0);
@@ -317,7 +316,7 @@ E1=x1/(x1+x2+x3+x4);
 E2=x2/(x1+x2+x3+x4);
 E3=x3/(x1+x2+x3+x4);
 E4=x4/(x1+x2+x3+x4);
-% zk=1.0;
+p.zk=1.0;
 JnakNa=3.0*(E1*a3-E2*b3);
 JnakK=2.0*(E4*b1-E3*a1);
 INaK=c.Pnak*(p.zna*JnakNa+p.zk*JnakK);
@@ -392,19 +391,19 @@ Jtr=(Cansr-Cajsr)/100.0;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %calcium buffer constants
-% cmdnmax=0.05;
-% if celltype==1
-%     cmdnmax=cmdnmax*1.3;
-% end
-% kmcmdn=0.00238;
-% trpnmax=0.07;
-% kmtrpn=0.0005;
-% BSRmax=0.047;
-% KmBSR=0.00087;
-% BSLmax=1.124;
-% KmBSL=0.0087;
-% csqnmax=10.0;
-% kmcsqn=0.8;
+p.cmdnmax=0.05;
+if strcmp(p.celltype,'epi')==1
+    p.cmdnmax=p.cmdnmax*1.3;
+end
+p.kmcmdn=0.00238;
+p.trpnmax=0.07;
+p.kmtrpn=0.0005;
+p.BSRmax=0.047;
+p.KmBSR=0.00087;
+p.BSLmax=1.124;
+p.KmBSL=0.0087;
+p.csqnmax=10.0;
+p.kmcsqn=0.8;
 
 %update intracellular concentrations, using buffers for cai, cass, cajsr
 dnai=-(INa+INaL+3.0*INaCa_i+3.0*INaK+INab)*p.Acap/(p.F*p.vmyo)+JdiffNa*p.vss/p.vmyo;
