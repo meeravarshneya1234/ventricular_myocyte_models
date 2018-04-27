@@ -227,8 +227,7 @@ xticks(1:1:length(outputlabels))
 xticklabels(outputlabels)
 xtickangle(90)
 ylabel(['Model Variants n = ' num2str(variations)])
-colorbar('Ticks',[-3 2],...
-         'TickLabels',{'Decreased','Increased'})
+
 
 nfact2keep = rank(X) ;
 [T,P,W,Wstar,U,b,C,Bpls,Bpls_star,Xhat,Yhat,R2X,R2Y]=...
